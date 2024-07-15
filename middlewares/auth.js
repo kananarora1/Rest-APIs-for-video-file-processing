@@ -1,13 +1,16 @@
 require('dotenv').config();
 
 const api_token = process.env.API_TOKEN;
-function authenticate(req, res, next) {
+function authenticateToken(req, res, next) {
     const token = req.headers['authorization'];
-    if (token === api_token) {
-        next();
-    } else {
-        res.status(401).json({ error: 'Unauthorized' });
+
+    console.log('Token from header:', token);
+    console.log('API Token:', api_token);
+
+    if (token != api_token) {
+        return res.status(401).json({ error: 'Unauthorized' });
     }
+    next();
 }
 
-module.exports = authenticate;
+module.exports = { authenticateToken };
