@@ -1,15 +1,20 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/db');
 
-const Link = sequelize.define('Link', {
-  videoId: {
-    type: DataTypes.INTEGER,
-    allowNull: false
+const ShareableLink = sequelize.define('ShareableLink', {
+  token: {
+    type: DataTypes.STRING,
+    unique: true,
+    allowNull: false,
   },
-  expiryDate: {
+  filePath: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  expiresAt: {
     type: DataTypes.DATE,
-    allowNull: false
-  }
+    allowNull: false,
+  },
 });
 
-module.exports = Link;
+module.exports = ShareableLink;

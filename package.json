@@ -11,6 +11,7 @@
   "description": "",
   "dependencies": {
     "@ffmpeg/ffmpeg": "^0.12.10",
+    "crypto-random-string": "^5.0.0",
     "expres": "^0.0.5",
     "express": "^4.19.2",
     "fluent-ffmpeg": "^2.1.3",

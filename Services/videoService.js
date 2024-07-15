@@ -3,6 +3,7 @@ const path = require('path');
 const { exec } = require('child_process');
 const Video = require('../models/video');
 const ffmpeg = require('fluent-ffmpeg');
+const { generateShareableLink } = require('./linkService');
 
 ffmpeg.setFfmpegPath('C:\\ffmpeg\\bin\\ffmpeg.exe');
 ffmpeg.setFfprobePath('C:\\ffmpeg\\bin\\ffprobe.exe');
@@ -31,7 +32,10 @@ const uploadVideo = async (file, title) => {
       size: fileSize
     });
 
-    return video;
+    const shareableLink = await generateShareableLink(filePath);
+
+    return {video, shareableLink};
+
   } catch (error) {
     throw new Error(`Failed to upload video: ${error.message}`);
   }
@@ -61,7 +65,9 @@ const trimVideo = async (videoId, trimParams) => {
   video.duration = end - start;
   await video.save();
   
-  return video;
+  const shareableLink = await generateShareableLink(outputFilePath);
+
+  return { video, shareableLink };
 };
 
 const mergeVideos = async (videoIds) => {
@@ -123,11 +129,18 @@ const mergeVideos = async (videoIds) => {
       size: videos.reduce((sum, video) => sum + video.size, 0)
     });
 
-    return mergedVideo;
+    const shareableLink = await generateShareableLink(outputFilePath);
+
+    return { mergedVideo, shareableLink };
   } catch (error) {
     console.error('Error in mergeVideos function:', error);
     throw error;
   }
 };
 
-module.exports = { uploadVideo, trimVideo, mergeVideos };
+const getVideos = async () => {
+  const videos = await Video.findAll();
+  return videos;
+};
+
+module.exports = { uploadVideo, trimVideo, mergeVideos, getVideos };

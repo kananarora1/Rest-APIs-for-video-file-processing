@@ -13,7 +13,7 @@ router.post('/trim/:id', authenticateToken, videoController.trimVideo);
 
 router.post('/merge', authenticateToken, videoController.mergeVideos);
 
-// router.get('/', authenticateToken, videoController.getVideos);
+router.get('/', videoController.getVideos);
 
 module.exports = router;
 

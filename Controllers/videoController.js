@@ -35,8 +35,13 @@ const mergeVideos = async (req, res) => {
   }
 };
 
-// const getVideos = async(req, res) =>{
+const getVideos = async(req, res) =>{
+  try{
+    const videos = await videoService.getVideos();
+    res.status(200).json(videos);
+  }catch(error){
+    res.status(400).json({error: error.message});
+  }
+}
 
-// }
-
-module.exports = { uploadVideo, trimVideo, mergeVideos };
+module.exports = { uploadVideo, trimVideo, mergeVideos, getVideos };

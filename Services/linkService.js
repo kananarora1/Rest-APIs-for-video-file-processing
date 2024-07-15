@@ -1,10 +1,18 @@
-const Link = require('../Models/link');
+const ShareableLink = require('../Models/link');
 
-const createLink = async (body) => {
-  const { videoId, expiryDate } = body;
+const generateShareableLink = async (filePath, expirationTime = 24 * 60 * 60 * 1000) => { // 24 hours
+  const { default: cryptoRandomString } = await import('crypto-random-string');
 
-  const link = await Link.create({ videoId, expiryDate });
-  return link;
+  const token = cryptoRandomString({ length: 10, type: 'url-safe' });
+  const expiresAt = new Date(Date.now() + expirationTime);
+
+  const link = await ShareableLink.create({
+    token,
+    filePath,
+    expiresAt,
+  });
+
+  return `http://localhost:3000/links/share/${token}`;
 };
 
-module.exports = { createLink };
+module.exports = { generateShareableLink };

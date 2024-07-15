@@ -1,13 +1,13 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const videoRoutes = require('./Routes/videoRoute');
-const linkRoutes = require('./Routes/linkRoute');
 const { authenticateToken } = require('./middlewares/auth');
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./config/swagger.js');
 const db = require('./config/db');
 const setupSwagger = require('./config/swagger');
 const sequelize = require('./config/db');
+const linkRoutes = require('./Routes/linkRoutes');
 require('dotenv').config();
 
 
@@ -17,9 +17,6 @@ app.use(bodyParser.json());
 
 // Swagger API Docs
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-
-// Middleware to authenticate all API requests
-app.use(authenticateToken);
 
 // setupSwagger(app);
 
