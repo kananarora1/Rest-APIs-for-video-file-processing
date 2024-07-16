@@ -2,7 +2,7 @@ const videoService = require('../Services/videoService');
 
 const uploadVideo = async (req, res) => {
   try {
-    const file = req.file;
+    const file  = req.file;
     const title = req.body.title;
 
     if (!file) {

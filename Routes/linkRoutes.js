@@ -13,7 +13,7 @@ router.get('/share/:token', async (req, res) => {
       return res.status(404).send('Link not found or expired');
     }
 
-    res.json({path: path.resolve(link.filePath) });
+    res.sendFile(path.resolve(link.filePath));
   } catch (error) {
     console.error('Error serving shared file:', error);
     res.status(500).send('Server error');
